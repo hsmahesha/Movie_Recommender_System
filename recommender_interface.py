@@ -25,7 +25,7 @@ sys.path.insert(0, "./package")
 #------------------------------------------------------------------------------#
 import package.file_handler.fh as fh
 import package.utility.util as util
-import package.movie_data.md as md
+import package.data.data as d
 import package.recommender as recom
 #------------------------------------------------------------------------------#
 
@@ -50,7 +50,7 @@ def movie_recommender_system():
                               user_data_base, movie_data_base, rating_data_base)
 
   # construct a Data object
-  data = md.Data(um_mat, n_rows, n_cols, user_id)
+  data = d.Data(um_mat, n_rows, n_cols, user_id)
 
   # call public interface method of class Recommender and get the list of 
   # movies to be recommended for user_id
