@@ -16,13 +16,13 @@ import sys                                                                     #
 #------------------------------------------------------------------------------#
 # import recommender related  python modules here                              #
 #------------------------------------------------------------------------------#
-import svd_recommender.svd_recom as svd
+import package.recommenders.svd_recommender.svd_recom as svd
 #------------------------------------------------------------------------------#
 
 #------------------------------------------------------------------------------#
 # import classes and other stuffs from above modules                           #
 #------------------------------------------------------------------------------#
-from svd_recommender.svd_recom import *
+from package.recommenders.svd_recommender.svd_recom import *
 #------------------------------------------------------------------------------#
 
 
