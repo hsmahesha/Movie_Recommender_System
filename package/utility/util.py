@@ -2,6 +2,7 @@
 # import required python modules here                                          #
 #------------------------------------------------------------------------------#
 import os
+import sys
 import numpy as np
 #------------------------------------------------------------------------------#
 
@@ -51,7 +52,9 @@ def construct_user_movie_matrix(user_data_base, movie_data_base, \
      u = int(line[0])
      m = int(line[1])
      r = int(line[2])
-     um_mat[u-1, m-1] = r
+     um_mat[u-1, m-1] = r  # since matrix starts from 0th insex, user i stored
+                           # in (i-1)th row, and movie j is stored in (j-1)th
+                           # col
 
    # return matrix with its size.
    return n_rows, n_cols, um_mat
@@ -71,8 +74,7 @@ def print_recommended_movies(user_id, recommended_list, movie_data_base):
   else:
     print("\nFollowing movies are recommended for user_id:", user_id, "\n")
     for m in recommended_list:
-       print(movie_data_base[m-1]) # we need to subtract 1, because movie 1 is
-                                   # recorded in 0th loc, etc.
-       print("\n")
+      print(movie_data_base[m])
+      print("\n")
   print("\n")
 #------------------------------------------------------------------------------#
