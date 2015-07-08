@@ -1,13 +1,33 @@
+################################################################################
+#                                                                              #
+#                            Utility Module:                                   #
+#                                                                              #
+################################################################################
+#                                                                              #
+#   This module implements the different utility functions                     #
+#                                                                              #
+################################################################################
+
+
+
+
+
 #------------------------------------------------------------------------------#
 # import required python modules here                                          #
 #------------------------------------------------------------------------------#
 import os
 import sys
 import numpy as np
+from enum import Enum
 #------------------------------------------------------------------------------#
 
-
-
+#------------------------------------------------------------------------------#
+# enum class which distinguishes different recommender systems
+#------------------------------------------------------------------------------#
+class RSKind(Enum):
+  svd = 1  # svd decomposition
+  pcc = 2  # pearson correlation
+#------------------------------------------------------------------------------#
 
 #------------------------------------------------------------------------------#
 # get user id from standard input console by asking the user to enter it       #
@@ -60,6 +80,35 @@ def construct_user_movie_matrix(user_data_base, movie_data_base, \
    return n_rows, n_cols, um_mat
 #------------------------------------------------------------------------------#
 
+#------------------------------------------------------------------------------#
+# ask user which recommender system he wants to use                            #
+#------------------------------------------------------------------------------#
+def get_choice_for_recommender_system():
+
+  os.system("clear")
+
+  print("\n")
+  print("enter the choice for recommender systems. following choices are " + \
+         "available.")
+  print("\n")
+  print("----------------------------------------------------------------")
+  print("*  enter 1 for svd decomposition based recommender system")
+  print("*  enter 2 for pearson correlation based recommender system")
+  print("----------------------------------------------------------------")
+  print("\n")
+
+  choice = int(input())
+
+  if choice == 1:
+    return RSKind.svd
+  elif choice == 2:
+    return RSKind.pcc
+  else:
+    print("\n\n")
+    print(choice, "is invalid entry for the choice of recommender system." + \
+          " exiting gracefully.")
+    sys.exit()
+#------------------------------------------------------------------------------#
 
 #------------------------------------------------------------------------------#
 # output top n recommended movies to user                                      #

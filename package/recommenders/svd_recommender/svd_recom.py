@@ -57,6 +57,59 @@ class SVDRecommmender:
   #----------------------------------------------------------------------------#
 
   #----------------------------------------------------------------------------#
+  # compute top n movies which can be recommended to user-id                   #
+  #----------------------------------------------------------------------------#
+  def __top_n_movies_for_user_id(self, knn_list):
+
+    # compute the frequency count of each movie for top k nearest neighbors
+    mat = self.__data.um_mat
+    n_cols = self.__data.n_cols
+    movie_arr = np.zeros(n_cols)
+    for k in knn_list:
+      movie_arr = np.add(movie_arr, mat[k])
+
+    # create a dictionary from movie frequency count array
+    m_dict = {}
+    for i in range(0, n_cols):
+      m_dict[i] = movie_arr[i]
+
+    # select top n movies for users whose frequency counts is higher
+    top_n_list = compute.get_top_n_movies(m_dict, mat, self.__data.user_id, \
+                                          self.__data.top_n)
+    return top_n_list
+  #----------------------------------------------------------------------------#
+
+
+  #----------------------------------------------------------------------------#
+  # compute k nearest neighbors of user-id                                     #
+  #----------------------------------------------------------------------------#
+  def __k_nearest_neighbors_of_user_id(self, us_mat):
+
+    # compute cosine similarity between user_id and other users
+    u_id = self.__data.user_id
+    u_dict = {}
+    r = 0
+    for row in us_mat:
+      if u_id != r:
+        cs = compute.cosine_similarity(us_mat[u_id], row)
+        u_dict[r] = cs
+      r += 1
+
+    # sort the users in the decreasing order of their cosine similarity with
+    # user-id
+    u_dict = sorted(u_dict.items(), key = lambda arg: arg[1], reverse = True)
+
+    # select top k nearest neighbors based on their cosine similarity values
+    knn = self.__data.knn
+    u_dict = u_dict[0:knn]
+    knn_list = []
+    for k, v in u_dict:
+      knn_list.append(k)
+
+    return knn_list
+  #----------------------------------------------------------------------------#
+
+  #----------------------------------------------------------------------------#
   # factorize the um-matrix using svd decomposition                            #
   #----------------------------------------------------------------------------#
   def __svd_decomposition(self):
@@ -112,13 +165,10 @@ class SVDRecommmender:
     us_mat = self.__svd_decomposition()
 
     # compute k nearest neighbors for user-id
-    knn_list = compute.k_nearest_neighbors_of_user_id( \
-               us_mat, self.__data.n_rows, self.__data.user_id, self.__data.knn)
+    knn_list = self.__k_nearest_neighbors_of_user_id(us_mat)
 
     # compute top n movies which can be recommended to user-id
-    top_n_list = compute.top_n_movies_for_user_id(self.__data.um_mat, \
-                 self.__data.n_rows, self.__data.n_cols, self.__data.top_n, \
-                 knn_list)
+    top_n_list = self.__top_n_movies_for_user_id(knn_list)
 
     # return recommended top n movies to user-id
     return top_n_list
