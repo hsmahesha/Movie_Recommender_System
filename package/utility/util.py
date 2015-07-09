@@ -81,6 +81,36 @@ def construct_user_movie_matrix(user_data_base, movie_data_base, \
 #------------------------------------------------------------------------------#
 
 #------------------------------------------------------------------------------#
+# construct training set and test set 2d-matrix where an entry (i,j) holds the #
+# rating of a movie j by user i.                                               #
+#------------------------------------------------------------------------------#
+def construct_rating_matrix(data_base):
+
+  # compute total number of rows.
+  temp_file = sorted(data_base, key=lambda arg: int(arg[0]), reverse=True)
+  n_rows = int(temp_file[0][0])
+
+  # compute total number of columns.
+  temp_file = sorted(data_base, key=lambda arg: int(arg[1]), reverse=True)
+  n_cols = int(temp_file[0][1])
+
+  # create matrix object.
+  mat = np.zeros((n_rows, n_cols))
+
+  # insert user ratings to um_matrix 
+  for line in data_base:
+    u = int(line[0])
+    m = int(line[1])
+    r = int(line[2])
+    mat[u-1, m-1] = r     # since matrix starts from 0th insex, user i stored
+                          # in (i-1)th row, and movie j is stored in (j-1)th
+                          # col
+
+  # return matrix with its size.
+  return n_rows, n_cols, mat
+#------------------------------------------------------------------------------#
+
+#------------------------------------------------------------------------------#
 # ask user which recommender system he wants to use                            #
 #------------------------------------------------------------------------------#
 def get_choice_for_recommender_system():
@@ -126,4 +156,19 @@ def print_recommended_movies(user_id, recommended_list, movie_data_base):
       print(movie_data_base[m])
       print("\n")
   print("\n")
+#------------------------------------------------------------------------------#
+
+#------------------------------------------------------------------------------#
+# parse command line arguments of emain()                                      #
+#------------------------------------------------------------------------------#
+def parse_emain_command_line_args(argv):
+
+  if len(argv) != 3:
+    print("\n")
+    print("Error: invalid number of command line arguments")
+    print("Usage: python emain.py train_data_file test_data_file")
+    print("\n")
+    sys.exit()
+
+  return argv[1], argv[2]
 #------------------------------------------------------------------------------#
