@@ -37,11 +37,6 @@ from package.utility.util import *
 #------------------------------------------------------------------------------#
 def recommend(data):
 
-  # ask user to wait till the list is ready
-  os.system("clear")
-  print("...please wait, getting top", data.top_n, "movies to be recommended" \
-        + " for user:", data.user_id+1)
-
   # call the recommender system of user choice, and get the output list of
   # top n movies to be recommended
   recommended_list = []

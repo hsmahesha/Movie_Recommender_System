@@ -111,6 +111,26 @@ def construct_rating_matrix(data_base):
 #------------------------------------------------------------------------------#
 
 #------------------------------------------------------------------------------#
+# construct user-movie rating dictionary                                       #
+#------------------------------------------------------------------------------#
+def construct_rating_dict(data_base):
+
+  u_dict = {}
+  for item in data_base:
+    u = int(item[0])
+    m = int(item[1])
+    r = int(item[2])
+    if u in u_dict:
+      r_dict = u_dict[u]
+    else:
+      r_dict = {}
+    r_dict[m] = r
+    u_dict[u] = r_dict
+
+  return u_dict
+#------------------------------------------------------------------------------#
+
+#------------------------------------------------------------------------------#
 # ask user which recommender system he wants to use                            #
 #------------------------------------------------------------------------------#
 def get_choice_for_recommender_system():
