@@ -30,6 +30,12 @@ import package.recommender as recom
 #------------------------------------------------------------------------------#
 
 #------------------------------------------------------------------------------#
+# import classes and other stuffs from above modules                           #
+#------------------------------------------------------------------------------#
+from package.utility.util import *
+#------------------------------------------------------------------------------#
+
+#------------------------------------------------------------------------------#
 # main interface function of movie recommender system                          #
 #------------------------------------------------------------------------------#
 def movie_recommender_system():
@@ -44,13 +50,16 @@ def movie_recommender_system():
   # get user-id to whom movies need to be recommended.
   user_id = int(util.get_user_id(len(user_data_base)))
 
+  # ask user which recommender system he wants to use
+  choice = util.get_choice_for_recommender_system()
+
   # contruct an user-movie 2d-matrix where an entry (i,j) contains the rating
   # of movie j+1 by user i+1. this is because, matrix starts from 0th index.
   n_rows, n_cols, um_mat = util.construct_user_movie_matrix( \
                               user_data_base, movie_data_base, rating_data_base)
 
   # construct a Data object
-  data = d.Data(um_mat, n_rows, n_cols, user_id)
+  data = d.Data(um_mat, n_rows, n_cols, user_id, choice)
 
   # call public interface method of class Recommender and get the list of 
   # movies to be recommended for user_id

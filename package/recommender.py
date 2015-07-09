@@ -37,9 +37,6 @@ from package.utility.util import *
 #------------------------------------------------------------------------------#
 def recommend(data):
 
-  # ask user which recommender system he wants to use
-  choice = util.get_choice_for_recommender_system()
-
   # ask user to wait till the list is ready
   os.system("clear")
   print("...please wait, getting top", data.top_n, "movies to be recommended" \
@@ -48,10 +45,10 @@ def recommend(data):
   # call the recommender system of user choice, and get the output list of
   # top n movies to be recommended
   recommended_list = []
-  if  choice == RSKind.svd:
+  if data.choice == RSKind.svd:
     svd_recommender = svd.SVDRecommmender(data)
     recommended_list = svd_recommender.recommend()
-  elif choice == RSKind.pcc:
+  elif data.choice == RSKind.pcc:
     pcc_recommender = pcc.PCCRecommender(data)
     recommended_list = pcc_recommender.recommend()
 

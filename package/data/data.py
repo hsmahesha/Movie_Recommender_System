@@ -24,6 +24,7 @@ class Data:
   n_rows = None
   n_cols = None
   user_id = None
+  choice = None
   top_n = None
   knn =  None
   #----------------------------------------------------------------------------#
@@ -31,7 +32,7 @@ class Data:
   #----------------------------------------------------------------------------#
   # special init method to initialize an object of type 'Data'                 #
   #----------------------------------------------------------------------------#
-  def __init__(self, um_mat, n_rows, n_cols, user_id):
+  def __init__(self, um_mat, n_rows, n_cols, user_id, choice):
 
     self.um_mat = um_mat          # user-movie matrix
     self.n_rows = int(n_rows)     # number of users 
@@ -40,6 +41,7 @@ class Data:
                                   # since matrix index starts with 0th loc, we
                                   # need to take one less than actual user-id
                                   # for computation purpose
+    self.choice = choice          # choice for recommender system to be used
     self.top_n = int(10)          # number of movies to be recommend
     self.knn = int(14)            # k nearest neighbor users
   #----------------------------------------------------------------------------#
